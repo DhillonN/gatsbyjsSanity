@@ -7,18 +7,34 @@ import BlockContent from "@sanity/block-content-to-react"
 import { Cta } from "../Layout"
 const useStyles = makeStyles({
   grid: {
-    height:'100%'
+    height: "100%",
+    display:"grid",
+    gridTemplateRows: "50% 1fr 1fr",
+    gridTemplateAreas:`"heading""tagline""buttons"`,
+    justifySelf:"center",
+    alignSelf:"center"
   },
-  heroGrid: {
+  gridHeader:{
+    gridArea:"heading",
+    alignSelf:"center",
+    justifySelf:"center",
+  },
+
+  gridTagline: {
+    gridArea:"tagline",
     width: "100%",
-    background: 'rgb(214,158,90)',
-    background: "linear-gradient(90deg, rgba(214,158,90,0.28) 0%, rgba(214,158,90,1) 50%, rgba(214,158,90,0.28) 100%)",
+    background: "rgb(214,158,90)",
+    background:
+      "linear-gradient(90deg, rgba(214,158,90,0.28) 0%, rgba(214,158,90,1) 50%, rgba(214,158,90,0.28) 100%)",
     textAlign: "center",
     "& p": {
       fontWeight: "bold",
       fontSize: "2.5rem",
     },
   },
+  gridButtons:{
+    gridArea:"buttons"
+  }
 })
 export default function Hero({ data }) {
   const bgImage =
@@ -30,36 +46,27 @@ export default function Hero({ data }) {
   const classes = useStyles()
   return (
     <Parallax image={bgImage}>
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        direction="column"
-        alignContent='center'
-        wrap="nowrap"
-        spacing={5}
-        className={classes.grid}
-      >
-        <Grid item className={classes.heroGrid}>
-          <Typography variant="h1" color="textPrimary">
-            {data.heading}
-          </Typography>
-          <BlockContent blocks={data.tagline} />
-        </Grid>
-        <Grid item>
-          <Grid elevation={6} container direction="row" wrap="nowrap" spacing={5}>
-            {data.ctas?data.ctas.map(cta => (
-              <Grid item>
-                {cta.route ? (
-                  <Cta link={cta.route.slug.current} title={cta.title} />
-                ) : (
-                  <Cta link={cta.link} title={cta.title} />
-                )}
-              </Grid>
-            )):''}
-          </Grid>
-        </Grid>
-      </Grid>
+      <div className={classes.grid}>
+        <Typography className={classes.gridHeader} variant="h1" color="textPrimary">
+          {data.heading}
+        </Typography>
+
+        <BlockContent className={classes.gridTagline} blocks={data.tagline} />
+
+        <div>
+          {data.ctas
+            ? data.ctas.map(cta => (
+                <div>
+                  {cta.route ? (
+                    <Cta link={cta.route.slug.current} title={cta.title} />
+                  ) : (
+                    <Cta link={cta.link} title={cta.title} />
+                  )}
+                </div>
+              ))
+            : ""}
+        </div>
+      </div>
     </Parallax>
   )
 }

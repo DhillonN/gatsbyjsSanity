@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/styles"
 import Masonry from "react-masonry-component"
 import Layout from "../components/pagelayout"
 import { Typography } from "@material-ui/core"
-import Parallax from '../components/Parallax/Parallax'
+import Parallax from "../components/Parallax/Parallax"
 const useStyles = makeStyles({
   grid: {
     padding: "5px",
@@ -37,12 +37,16 @@ const useStyles = makeStyles({
 })
 export default function PortraitGallery({ data }) {
   const classes = useStyles()
-  const bgImage=`url(${imageUrlFor(buildImageObj(data.sanityGallery._rawImages[0])).width(1980).url()})`
+  const bgImage = `url(${imageUrlFor(
+    buildImageObj(data.sanityGallery._rawImages[0])
+  )
+    .width(1980)
+    .url()})`
   return (
     <Layout>
       <Parallax image={bgImage}>
-      <Typography variant="h1">{data.sanityGallery.title}</Typography
-      ></Parallax>
+        <Typography variant="h1">{data.sanityGallery.title}</Typography>
+      </Parallax>
       <Masonry>
         {data.sanityGallery._rawImages.map(image => (
           <div className={classes.grid}>
@@ -59,12 +63,12 @@ export default function PortraitGallery({ data }) {
 }
 
 export const query = graphql`
-query($id:String!){
-    sanityGallery(id: {eq: $id}) {
+  query($id: String!) {
+    sanityGallery(id: { eq: $id }) {
       id
       title
       description
-      _rawImages(resolveReferences: {maxDepth: 10})
+      _rawImages(resolveReferences: { maxDepth: 10 })
     }
   }
 `

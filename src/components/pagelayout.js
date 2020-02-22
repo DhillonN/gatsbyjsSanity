@@ -18,6 +18,7 @@ const headerStyle = {
   fontWeight: 700,
   textAlign: "center",
   margin: "0rem",
+
 }
 const useStyles = makeStyles(theme => ({
   paper: {
